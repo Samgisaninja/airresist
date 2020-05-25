@@ -68,7 +68,8 @@ int main(int argc, char *argv[], char *envp[]) {
 					[newFilter setObject:newBundles forKey:@"Bundles"];
 					NSMutableDictionary *newPlist = [NSMutableDictionary dictionaryWithDictionary:filterPlist];
 					[newPlist setObject:newFilter forKey:@"Filter"];
-					[newPlist writeToFile:[NSString stringWithFormat:@"%@_TEST.plist", filePath] atomically:TRUE];
+					[[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+					[newPlist writeToFile:filePath atomically:TRUE];
 				}
 			}
             
