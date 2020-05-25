@@ -33,7 +33,7 @@ int main(int argc, char *argv[], char *envp[]) {
 	NSArray *systemAppsContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/Applications" error:nil];
 	for (NSString *systemAppPath in systemAppsContents) {
 		NSString *infoPlistPath = [systemAppPath stringByAppendingPathComponent:@"Info.plist"];
-		NSString *pluginsDirPath = [systemAppPath stringByAppendingPathComponent@:"PlugIns"];
+		NSString *pluginsDirPath = [systemAppPath stringByAppendingPathComponent:@"PlugIns"];
 		if ([[NSFileManager defaultManager] fileExistsAtPath:infoPlistPath]) {
 			if ([[NSDictionary dictionaryWithContentsOfFile:infoPlistPath] objectForKey:@"CFBundleIdentifier"]) {
 				[listOfApps addObject:[[NSDictionary dictionaryWithContentsOfFile:infoPlistPath] objectForKey:@"CFBundleIdentifier"]];
