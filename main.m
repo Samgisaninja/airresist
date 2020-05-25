@@ -12,15 +12,15 @@ int main(int argc, char *argv[], char *envp[]) {
 				NSString *infoPlistPath = [sandboxedAppDirPath stringByAppendingPathComponent:@"Info.plist"];
 				NSString *pluginsDirPath = [sandboxedAppDirPath stringByAppendingPathComponent:@"PlugIns"];
 				if ([[NSFileManager defaultManager] fileExistsAtPath:infoPlistPath]) {
-					if ([[NSDictionary dictionaryWithContentsOfFile:infoPlistPath] objectForKey:@"CFBundleIdentifier"]){
+					if ([[NSDictionary dictionaryWithContentsOfFile:infoPlistPath] objectForKey:@"CFBundleIdentifier"]) {
 						[listOfApps addObject:[[NSDictionary dictionaryWithContentsOfFile:infoPlistPath] objectForKey:@"CFBundleIdentifier"]];
 					}
 				}
-				if ([[NSFileManager defaultManager] fileExistsAtPath:pluginsDirPath]){
+				if ([[NSFileManager defaultManager] fileExistsAtPath:pluginsDirPath]) {
 					NSArray *pluginsDirPathContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pluginsDirPath error:nil];
-					for (NSString *appPlugin in pluginsDirPathContents){
+					for (NSString *appPlugin in pluginsDirPathContents) {
 						NSString *appPluginInfoPlistPath = [[pluginsDirPath stringByAppendingPathComponent:appPlugin] stringByAppendingPathComponent:@"Info.plist"];
-						if ([[NSFileManager defaultManager] fileExistsAtPath:appPluginInfoPlistPath]){
+						if ([[NSFileManager defaultManager] fileExistsAtPath:appPluginInfoPlistPath]) {
 							if ([[NSDictionary dictionaryWithContentsOfFile:appPluginInfoPlistPath] objectForKey:@"CFBundleIdentifier"]) {
 								[listOfApps addObject:[[NSDictionary dictionaryWithContentsOfFile:appPluginInfoPlistPath] objectForKey:@"CFBundleIdentifier"]];
 							}
@@ -30,7 +30,27 @@ int main(int argc, char *argv[], char *envp[]) {
 			}
 		}
 	}
-	//Get system apps too
+	NSArray *systemAppsContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/Applications" error:nil];
+	for (NSString *systemAppPath in systemAppsContents) {
+		NSString *infoPlistPath = [systemAppPath stringByAppendingPathComponent:@"Info.plist"];
+		NSString *pluginsDirPath = [systemAppPath stringByAppendingPathComponent@:"PlugIns"];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:infoPlistPath]) {
+			if ([[NSDictionary dictionaryWithContentsOfFile:infoPlistPath] objectForKey:@"CFBundleIdentifier"]) {
+				[listOfApps addObject:[[NSDictionary dictionaryWithContentsOfFile:infoPlistPath] objectForKey:@"CFBundleIdentifier"]];
+			}
+		}
+		if ([[NSFileManager defaultManager] fileExistsAtPath:pluginsDirPath]) {
+			NSArray *pluginsDirPathContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pluginsDirPath error:nil];
+			for (NSString *appPlugin in pluginsDirPathContents) {
+				NSString *appPluginInfoPlistPath = [[pluginsDirPath stringByAppendingPathComponent:appPlugin] stringByAppendingPathComponent:@"Info.plist"];
+				if ([[NSFileManager defaultManager] fileExistsAtPath:appPluginInfoPlistPath]) {
+					if ([[NSDictionary dictionaryWithContentsOfFile:appPluginInfoPlistPath] objectForKey:@"CFBundleIdentifier"]) {
+						[listOfApps addObject:[[NSDictionary dictionaryWithContentsOfFile:appPluginInfoPlistPath] objectForKey:@"CFBundleIdentifier"]];
+					}
+				}
+			}
+		}
+	}
 	[listOfApps addObject:@"com.apple.springboard"];
 	[listOfApps addObject:@"com.apple.backboardd"];
 	NSArray *contentsOfDynamicLibs = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/Library/MobileSubstrate/DynamicLibraries/" error:nil];
