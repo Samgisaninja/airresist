@@ -63,6 +63,7 @@ int main(int argc, char *argv[], char *envp[]) {
 				if ([[[filterPlist objectForKey:@"Filter"] objectForKey:@"Bundles"] containsObject:@"com.apple.UIKit"]) {
 					NSMutableArray *newBundles = [NSMutableArray arrayWithArray:[[filterPlist objectForKey:@"Filter"] objectForKey:@"Bundles"]];
 					[newBundles removeObject:@"com.apple.UIKit"];
+					[newBundles removeObjectsInArray:listOfApps];
 					[newBundles addObjectsFromArray:listOfApps];
 					NSMutableDictionary *newFilter = [NSMutableDictionary dictionaryWithDictionary:[filterPlist objectForKey:@"Filter"]];
 					[newFilter setObject:newBundles forKey:@"Bundles"];
