@@ -8,3 +8,5 @@ __________airresist_FILES = Tweak.x
 __________airresist_CFLAGS = -fobjc-arc
 
 include $(THEOS_MAKE_PATH)/tweak.mk
+
+ARCHS = armv7 arm64 arm64e
