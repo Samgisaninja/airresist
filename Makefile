@@ -1,8 +1,10 @@
+INSTALL_TARGET_PROCESSES = SpringBoard
+
 include $(THEOS)/makefiles/common.mk
 
-TOOL_NAME = airresist
+TWEAK_NAME = __________airresist
 
-airresist_FILES = main.m
-airresist_CFLAGS = -fobjc-arc
+__________airresist_FILES = Tweak.x
+__________airresist_CFLAGS = -fobjc-arc
 
-include $(THEOS_MAKE_PATH)/tool.mk
+include $(THEOS_MAKE_PATH)/tweak.mk
